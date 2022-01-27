@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import re
-import sys
 
 import requests
 from bs4 import BeautifulSoup
@@ -109,6 +107,11 @@ class Test:
         pic_root = category_root+"/"+href[idx1:]
         if not os.path.exists(pic_root):
             os.makedirs(pic_root)
+
+        pic_info = pic_root+".txt"
+        with open(pic_info, 'ab') as f:
+            f.write(title.encode('utf-8'))
+
         for pic_url in pics:
             #9d52c073gy1gymkmyo29pj20oo1hcqk7.jpg
             idx2 = pic_url.rindex('/')
@@ -124,7 +127,10 @@ mm = Test()
 
 # 获取二级目录
 contents = mm.get_two_level_directory()
+count = 0
 for ee in contents:
+    count +=1
+    print("count %d size %d" % (count,len(contents)))
     category, title, href,pics = ee
     mm.get_three_level_directory(ee)
 
